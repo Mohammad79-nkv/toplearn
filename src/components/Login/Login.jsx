@@ -1,6 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import { loginUser } from "../../services/userServices";
+import { toast } from "react-toastify";
+import {withRouter} from 'react-router-dom'
 
-const Login = () => {
+const Login = ({history}) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const reset = () => {
+    setEmail("");
+    setPassword("");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const user = {
+      email,
+      password,
+    };
+    try {
+      const { status, data } = await loginUser(user);
+      if (status === 200) {
+        toast.success("ورود موفقیت آمیز بود.", {
+          position: "top-right",
+          closeOnClick: true,
+        });
+        localStorage.setItem("token", data.token);
+        history.replace("/")
+        reset();
+      }
+    } catch (ex) {
+      console.log(ex);
+      toast.error("مشکلی پیش آمده.", {
+        position: "top-right",
+        closeOnClick: true,
+      });
+    }
+  };
   return (
     <main className="client-page">
       <div className="container-content">
@@ -9,16 +44,18 @@ const Login = () => {
         </header>
 
         <div className="form-layer">
-          <form action="" method="">
+          <form action="" method="" onSubmit={handleSubmit}>
             <div className="input-group">
               <span className="input-group-addon" id="email-address">
                 <i className="zmdi zmdi-email"></i>
               </span>
               <input
-                type="text"
+                type="email"
                 className="form-control"
                 placeholder="ایمیل"
                 aria-describedby="email-address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -27,10 +64,12 @@ const Login = () => {
                 <i className="zmdi zmdi-lock"></i>
               </span>
               <input
-                type="text"
+                type="password"
                 className="form-control"
                 placeholder="رمز عبور "
                 aria-describedby="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
@@ -60,4 +99,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withRouter(Login);
