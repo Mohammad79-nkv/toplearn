@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { loginUser } from "../../services/userServices";
 import { toast } from "react-toastify";
-import {withRouter} from 'react-router-dom'
+import { Sugar } from "react-preloaders";
+import { withRouter } from "react-router-dom";
+import simpleReactValidator from "simple-react-validator";
+import { Helmet } from "react-helmet";
 
-const Login = ({history}) => {
+
+const Login = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [, forceUpdate] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const validator = useRef(
+    new simpleReactValidator({
+      messages: {
+        required: "پر کردن این قسمت الزامی است.",
+        min: "کمتر از ۵ حرف نباید باشد.",
+        email: "ایمیل وارد شده صحیح نمی باشد.",
+      },
+      element: (message) => <div style={{ color: "red" }}> {message}</div>,
+    })
+  );
   const reset = () => {
     setEmail("");
     setPassword("");
@@ -18,18 +35,26 @@ const Login = ({history}) => {
       password,
     };
     try {
-      const { status, data } = await loginUser(user);
-      if (status === 200) {
-        toast.success("ورود موفقیت آمیز بود.", {
-          position: "top-right",
-          closeOnClick: true,
-        });
-        localStorage.setItem("token", data.token);
-        history.replace("/")
-        reset();
+      if (validator.current.allValid()) {
+        setLoading(true);
+        const { status, data } = await loginUser(user);
+        if (status === 200) {
+          toast.success("ورود موفقیت آمیز بود.", {
+            position: "top-right",
+            closeOnClick: true,
+          });
+          setLoading(false);
+          localStorage.setItem("token", data.token);
+          history.replace("/");
+          reset();
+        }
+      } else {
+        validator.current.showMessages();
+        forceUpdate(1);
       }
     } catch (ex) {
       console.log(ex);
+      setLoading(false);
       toast.error("مشکلی پیش آمده.", {
         position: "top-right",
         closeOnClick: true,
@@ -42,7 +67,12 @@ const Login = ({history}) => {
         <header>
           <h2> ورود به سایت </h2>
         </header>
-
+        <Helmet>
+          <title>تاپلرن|ورود به سایت</title>
+        </Helmet>
+        {loading ? (
+          <Sugar times={0} color="red" customLoading={loading} />
+        ) : null}
         <div className="form-layer">
           <form action="" method="" onSubmit={handleSubmit}>
             <div className="input-group">
@@ -51,12 +81,17 @@ const Login = ({history}) => {
               </span>
               <input
                 type="email"
+                name="email"
                 className="form-control"
                 placeholder="ایمیل"
                 aria-describedby="email-address"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  validator.current.showMessageFor("email");
+                }}
               />
+              {validator.current.message("email", email, "required|email")}
             </div>
 
             <div className="input-group">
@@ -65,12 +100,14 @@ const Login = ({history}) => {
               </span>
               <input
                 type="password"
+                name="password"
                 className="form-control"
                 placeholder="رمز عبور "
                 aria-describedby="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {validator.current.message("password", password, "required")}
             </div>
 
             <div className="remember-me">

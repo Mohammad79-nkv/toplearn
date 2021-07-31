@@ -5,6 +5,7 @@ import Footer from "../common/Footer";
 import Header from "../common/Header";
 import MainNav from "../Navs/MainNav";
 import TopNav from "../Navs/TopNav";
+import { Helmet } from "react-helmet";
 
 const MainLayouts = (props) => {
   const { pathname } = props.location;
@@ -12,6 +13,9 @@ const MainLayouts = (props) => {
   return (
     <Fragment>
       <div className="landing-layer">
+        <Helmet>
+          <title>تاپلرن</title>
+        </Helmet>
         <div className="container">
           <TopNav />
           {pathname === "/" ? <Header /> : null}

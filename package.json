@@ -9,10 +9,13 @@
     "axios": "^0.21.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-helmet": "^6.1.0",
+    "react-preloaders": "^3.0.3",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.0",
-    "react-toastify": "^7.0.4"
+    "react-toastify": "^7.0.4",
+    "simple-react-validator": "^1.6.1"
   },
   "scripts": {
     "start": "react-scripts start",
