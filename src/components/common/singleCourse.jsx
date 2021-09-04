@@ -1,6 +1,6 @@
 import React from "react";
 
-const Single = () => {
+const SingleCourse = () => {
   return (
     <section className="term-content">
       <header>
@@ -317,4 +317,4 @@ const Single = () => {
   );
 };
 
-export default Single;
+export default SingleCourse;
