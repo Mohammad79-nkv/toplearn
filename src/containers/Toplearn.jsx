@@ -17,7 +17,7 @@ const Toplearn = (props) => {
   return (
     <MainLayouts>
       <Switch>
-        <Route path="/course" component={SingleCourse} />
+        <Route path="/course/:id" component={SingleCourse} />
         <Route path="/archive" component={Archive} />
         <Route path="/" exact render={() => <Course courses={indexCourses  } />} />
         <Route path="/login" component={Login} />

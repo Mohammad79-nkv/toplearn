@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getSingleCourse } from "../../Actions/course";
 
-const SingleCourse = () => {
+const SingleCourse = ({ match }) => {
+  const course = useSelector((state) => state.course);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getSingleCourse(match.params.id));
+    console.log(match);
+  }, []);
+
   return (
     <section className="term-content">
       <header>
@@ -9,22 +20,13 @@ const SingleCourse = () => {
       <div className="row">
         <div className="col-md-8 col-sm-12 col-xs-12 pull-left">
           <section className="term-description">
-            <img src="images/pic/big-thumb.jpg" />
+            <img
+              src={`https://toplearnapi.ghorbany.dev/${course.imageUrl}`}
+              alt="single-course-img"
+            />
 
-            <h2> ربات تلگرام برای چه کاری مفید است ؟ </h2>
-            <p>
-              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-              استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-              در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد
-              نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
-              کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان
-              جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای
-              طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان
-              فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری
-              موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد
-              نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل
-              دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
-            </p>
+            <h2>{course.title}</h2>
+            <p>{course.info}</p>
 
             <h2> سرفصل های این دوره : </h2>
             <ul>
