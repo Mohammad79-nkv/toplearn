@@ -1,10 +1,13 @@
 import React, { useState, useRef } from "react";
 import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
+import {Redirect} from 'react-router'
 import { Sugar } from "react-preloaders";
 import simpleReactValidator from "simple-react-validator";
 import { registerUser } from "./../../services/userServices";
 import { Helmet } from "react-helmet";
+import { isEmpty } from "lodash";
+import { useSelector } from "react-redux";
 
 const Register = ({ history }) => {
   const [fullname, setFullname] = useState("");
@@ -13,6 +16,8 @@ const Register = ({ history }) => {
   const [, forceUpdate] = useState();
   const [policy, setPolicy] = useState();
   const [loading, setLoading] = useState(false);
+
+  const user = useSelector(state => state.user)
 
   const validator = useRef(
     new simpleReactValidator({
@@ -65,6 +70,10 @@ const Register = ({ history }) => {
       setLoading(false);
     }
   };
+
+  if (!isEmpty(user)) return <Redirect to="/" />;
+
+
   return (
     <main className="client-page">
       <div className="container-content">

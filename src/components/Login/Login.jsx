@@ -3,8 +3,13 @@ import { loginUser } from "../../services/userServices";
 import { toast } from "react-toastify";
 import { Sugar } from "react-preloaders";
 import { withRouter } from "react-router-dom";
+import {Redirect} from 'react-router'
 import simpleReactValidator from "simple-react-validator";
 import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../Actions/user";
+import { deCodedToken } from "../../utils/deCodedToken";
+import { isEmpty } from "lodash";
 
 
 const Login = ({ history }) => {
@@ -12,6 +17,9 @@ const Login = ({ history }) => {
   const [password, setPassword] = useState("");
   const [, forceUpdate] = useState();
   const [loading, setLoading] = useState(false);
+
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch();
 
   const validator = useRef(
     new simpleReactValidator({
@@ -43,8 +51,9 @@ const Login = ({ history }) => {
             position: "top-right",
             closeOnClick: true,
           });
-          setLoading(false);
           localStorage.setItem("token", data.token);
+          dispatch(setUser(deCodedToken(data.token).payload.user))
+          setLoading(false);
           history.replace("/");
           reset();
         }
@@ -61,6 +70,9 @@ const Login = ({ history }) => {
       });
     }
   };
+
+  if(!isEmpty(user)) {return <Redirect to="/"/>}
+
   return (
     <main className="client-page">
       <div className="container-content">

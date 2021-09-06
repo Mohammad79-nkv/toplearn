@@ -3,6 +3,9 @@ import { toast } from "react-toastify";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
+const token = localStorage.getItem("token");
+if (token) axios.defaults.headers.common['Authorization'] = `bearer ${token}`;
+
 axios.interceptors.response.use(null, error => {
     const expectedErrors =
         error.response &&
