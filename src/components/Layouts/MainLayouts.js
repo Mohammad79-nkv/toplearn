@@ -9,7 +9,7 @@ import { Helmet } from "react-helmet";
 
 const MainLayouts = (props) => {
   const { pathname } = props.location;
-  console.log(props.location);
+  // console.log(props.location);
   return (
     <Fragment>
       <div className="landing-layer">

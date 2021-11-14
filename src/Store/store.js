@@ -17,6 +17,6 @@ export default store;
 store.dispatch(getAllCourses())
 
 //subscribe
-store.subscribe(() => {
-  console.log(store.getState());
-});
+// store.subscribe(() => {
+//   console.log(store.getState());
+// });

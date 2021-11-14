@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
-import {Redirect} from 'react-router'
+import { Redirect } from "react-router";
 import { Sugar } from "react-preloaders";
 import simpleReactValidator from "simple-react-validator";
 import { registerUser } from "./../../services/userServices";
@@ -17,7 +17,7 @@ const Register = ({ history }) => {
   const [policy, setPolicy] = useState();
   const [loading, setLoading] = useState(false);
 
-  const user = useSelector(state => state.user)
+  const user = useSelector((state) => state.user);
 
   const validator = useRef(
     new simpleReactValidator({
@@ -72,7 +72,6 @@ const Register = ({ history }) => {
   };
 
   if (!isEmpty(user)) return <Redirect to="/" />;
-
 
   return (
     <main className="client-page">

@@ -39,13 +39,13 @@ const Toplearn = (props) => {
   return (
     <MainLayouts>
       <Switch>
+      <Route path="/" exact render={() => <Course courses={indexCourses  } />} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/archive" component={Archive} />
         <Route path="/course/:id" component={SingleCourse} />
-        <Route path="/archive" component={Archive} />
         <Route path="/user-profile" component={UserProfile} />
-        <Route path="/" exact render={() => <Course courses={indexCourses  } />} />
-        <Route path="/login" component={Login} />
         <Route path="/logout" component={Logout} />
-        <Route path="/register" component={Register} />
       </Switch>
     </MainLayouts>
   );

@@ -6,13 +6,14 @@ import Pagination from "../common/pagination";
 import Course from "./Course";
 
 const Archive = () => {
-  const [perPage, setPerPage] = useState(12);
+  const [perPage, setPerPage] = useState(16);
   const [currentPage, setCurrentPage] = useState(1);
 
   const courses = useSelector((state) => state.courses);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0)
   };
 
   const archiveCourses = paginate(courses, currentPage, perPage);

@@ -1,8 +1,8 @@
-import { getCourse } from "../services/courseService"
+import { getCourse } from "../services/courseService";
 
 export const getSingleCourse = (courseId) => {
-    const {data} = getCourse(courseId);
-    return async (dispatch) => {
-        await dispatch({type : "GET_COURSE" , payload : data});
-    }
-}
+  return async (dispatch) => {
+    const { data } = await getCourse(courseId);
+    await dispatch({ type: "GET_COURSE", payload: data.course });
+  };
+};
