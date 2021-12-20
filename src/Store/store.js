@@ -11,8 +11,5 @@ const store = createStore(
   )
 );
 
+store.dispatch(getAllCourses());
 export default store;
-
-store.dispatch(getAllCourses())
-
-
