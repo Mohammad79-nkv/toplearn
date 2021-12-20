@@ -3,7 +3,7 @@ import thunk from "redux-thunk";
 import { getAllCourses } from "../Actions/courses";
 import { reducers } from "../Reducers/reducers";
 
-const store = createStore(
+const Store = createStore(
   reducers,
   compose(
     applyMiddleware(thunk),
@@ -11,5 +11,5 @@ const store = createStore(
   )
 );
 
-store.dispatch(getAllCourses());
-export default store;
+Store.dispatch(getAllCourses());
+export default Store;
