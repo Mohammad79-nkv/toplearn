@@ -13,10 +13,6 @@ const store = createStore(
 
 export default store;
 
-//Initialize
 store.dispatch(getAllCourses())
 
-//subscribe
-// store.subscribe(() => {
-//   console.log(store.getState());
-// });
+
